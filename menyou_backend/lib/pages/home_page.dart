@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:menyou_backend/widgets/home_navbar.dart';
 
 import '../widgets/items_widget.dart';
 
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+
+  final String restaurant_id;
+  const HomePage({super.key, required this.restaurant_id});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+  print("==================${restaurant_id}");
     return DefaultTabController(
       length:4,
       child : Scaffold(
@@ -74,14 +76,14 @@ class HomePage extends StatelessWidget {
                   Tab(text: "Pasta"),
                 ],
               ),
-              Flexible(
+               Flexible(
                   flex: 1,
                   child: TabBarView(
                     children: [
-                      ItemsWidget(),
-                      ItemsWidget(),
-                      ItemsWidget(),
-                      ItemsWidget(),
+                      ItemsWidget(restaurant_id: restaurant_id,),
+                      ItemsWidget(restaurant_id: restaurant_id,),
+                      ItemsWidget(restaurant_id: restaurant_id,),
+                      ItemsWidget(restaurant_id: restaurant_id,),
                     ],
                   )
               )
