@@ -12,7 +12,6 @@ class HomePage extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-  print("==================${restaurant_id}");
     return DefaultTabController(
       length:4,
       child : Scaffold(

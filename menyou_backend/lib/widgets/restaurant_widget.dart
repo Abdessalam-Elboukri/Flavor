@@ -32,12 +32,13 @@ class RestaurantWidget extends StatelessWidget {
               shrinkWrap: true,
               childAspectRatio: 0.9,
               children:
-                 List.generate(snapshot.data!.length,(index){
+                 List.generate(snapshot.data?.length ?? 0, (index){
+                   if (snapshot.data == null) return Container();
                       return Container(
                         padding: EdgeInsets.symmetric(vertical:5, horizontal:5),
                         margin: EdgeInsets.symmetric(vertical:5, horizontal: 10),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
+                            borderRadius: const BorderRadius.only(
                               bottomLeft: Radius.circular(6),
                               bottomRight: Radius.circular(6),
                             ),
@@ -51,21 +52,21 @@ class RestaurantWidget extends StatelessWidget {
                             ],
                         ),
                         child: Column(children: [
-                          ElevatedButton(
-                            onPressed: () async {
+                          GestureDetector(
+                            onTap: () {
                               var restaurant_id = snapshot.data![index].id;
-                              var result = await Navigator.push(
+                              Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => HomePage(restaurant_id: restaurant_id),
                                 ),
                               );
-                              print('Received result: $result');
                             },
                             child: Container(
                               //margin: EdgeInsets.all(5),
-                              child: Image.network(snapshot.data![index].image,
-                                width:200,
+                              child: Image.network(
+                                snapshot.data![index].image,
+                                width: 200,
                                 height: 100,
                                 fit: BoxFit.cover,
                               ),

@@ -1,14 +1,12 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:menyou_backend/utils/local_storage.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../controller/food_controller.dart';
 import '../models/Food.dart';
-import '../widgets/single_item_nav.dart';
+import '../models/local_data.dart';
 
 
 class SingleItemPage extends StatefulWidget {
@@ -37,10 +35,12 @@ class _SingleItemPage extends State<SingleItemPage>{
     });
   }
 
+  final controller = Get.put(FoodController());
+  final localStorage= Get.put(LocalStorage());
+
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(FoodController());
-    final localStorage= Get.put(LocalStorage());
+
     return FutureBuilder<Food>(
         future: controller.getfoodDetails(widget.food_id),
         builder: (context,snapshot) {
@@ -50,9 +50,11 @@ class _SingleItemPage extends State<SingleItemPage>{
             return Text("${snapshot.error}");
           }
           else {
-            Food foodData = snapshot.data!;
+
+                Food foodData = snapshot.data!;
+
               return Scaffold(
-                backgroundColor: Color(0xFF232227),
+                backgroundColor: Colors.black54,
                 body: SafeArea(
                   child: Padding(
                     padding: EdgeInsets.only(top: 25, left: 15, right: 10),
@@ -206,19 +208,22 @@ class _SingleItemPage extends State<SingleItemPage>{
                             ),
                             InkWell(
                               onTap: (){
-                                Food food = Food(id:foodData.id,
-                                    category: foodData.category,
-                                    name: foodData.name,
-                                    image: foodData.image,
-                                    price: foodData.price,
-                                    description: foodData.description,
-                                    restaurantId: foodData.restaurantId);
-                                localStorage.saveData("1", food);
+                               LocalFood localFood= LocalFood(
+                                    id: foodData.id,
+                                    quantity: _counter,
+                                    image:foodData.image,
+                                    category:foodData.category,
+                                    price:foodData.price,
+                                    name:foodData.name
+                               );
+                             //localStorage.clear();
+                             localStorage.saveData(localFood);
+                             print(localStorage.readData());
                               },
                               child: Container(
                                 padding: EdgeInsets.symmetric(vertical: 15,horizontal: 20),
                                 decoration: const BoxDecoration(
-                                    color: Color(0xFFEFB322),
+                                    color: Colors.green,
                                     borderRadius: BorderRadius.only(
                                       topRight: Radius.circular(20),
                                       bottomRight:Radius.circular(20),
@@ -227,7 +232,7 @@ class _SingleItemPage extends State<SingleItemPage>{
                                 ),
                                 child: Row(
                                   children: const [
-                                    Text("Order Now",
+                                    Text("Add to Cart",
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 20,

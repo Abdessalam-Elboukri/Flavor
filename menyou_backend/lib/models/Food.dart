@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -29,7 +28,7 @@ class Food{
   }
 
   Map<String, dynamic> toJson() {
-    return {'id:id, ''name': name, 'image': image, 'category':category, 'price':price, 'description': description, 'restaurantId':restaurantId};
+    return {'id':id, 'name': name, 'image': image, 'category':category, 'price':price, 'description': description, 'restaurantId':restaurantId};
   }
 
 

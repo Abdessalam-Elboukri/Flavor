@@ -1,30 +1,37 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:menyou_backend/models/local_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/Food.dart';
 
 class LocalStorage {
 
-  void saveData(String key, Food food) async {
+
+  final String key = 'cartList';
+
+  Future<void> saveData(LocalFood command) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString(key, json.encode(food.toJson()));
+    final jsonString = json.encode(command.toJson());
+    final jsonList = prefs.getStringList(key) ?? [];
+    jsonList.add(jsonString);
+    await prefs.setStringList(key, jsonList);
+    print(jsonList.length);
   }
 
-  Future<Food?> readData(String key) async {
+  Future<List<LocalFood>> readData() async {
     final prefs = await SharedPreferences.getInstance();
-    String? jsonString = prefs.getString(key);
-    if (jsonString != null) {
-      Map<String, dynamic> jsonMap = json.decode(jsonString);
-      return Food(name: jsonMap['name'], id: jsonMap['id'], category: jsonMap['category'],
-                  image: jsonMap['image'], price: jsonMap['price'], description: jsonMap['description'],
-                  restaurantId: jsonMap['restaurantId']);
-    } else {
-      return null;
-    }
+    final jsonList = prefs.getStringList(key) ?? [];
+    final data= jsonList.map((jsonString) => LocalFood.fromJson(json.decode(jsonString))).toList();
+    return data;
   }
 
+  Future<void> clear()async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+  }
 
 
 }

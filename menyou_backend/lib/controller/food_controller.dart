@@ -1,7 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:menyou_backend/models/Food.dart';
 import 'package:menyou_backend/repository/food_repository.dart';
+import 'package:menyou_backend/utils/local_storage.dart';
+
 
 class FoodController extends GetxController{
 
@@ -14,4 +15,5 @@ class FoodController extends GetxController{
   Future<Food> getfoodDetails(String foodId) async{
     return await _foodRepo.getFoodDetails(foodId);
   }
+
 }

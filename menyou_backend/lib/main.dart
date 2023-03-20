@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:menyou_backend/pages/cart_page.dart';
+import 'package:menyou_backend/pages/command_list_page.dart';
 import 'package:menyou_backend/pages/home_page.dart';
 import 'package:menyou_backend/pages/restaurantsPage.dart';
 import 'package:menyou_backend/pages/single_item_page.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         "RestaurantsPage" : (context) => RestaurantsPage(),
         "SingleItemPage":(context) => SingleItemPage(food_id: '',),
         "CartPage" : (context) => CartPage(),
+        "CommandPage" : (context) => CommandPage(),
       },
     );
   }

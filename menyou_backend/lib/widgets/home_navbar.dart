@@ -78,7 +78,9 @@ class HomeNavBar extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: (){},
+            onTap: (){
+              Navigator.pushNamed(context, "CommandPage");
+            },
             child : Icon(
               Icons.list,
               color: Colors.white,
